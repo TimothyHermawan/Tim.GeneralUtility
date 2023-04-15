@@ -1,6 +1,10 @@
+using UnityEngine;
 using System.Linq;
 using JetBrains.Annotations;
-using UnityEngine;
+
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace Tim.GeneralUtility
 {
@@ -60,9 +64,12 @@ namespace Tim.GeneralUtility
         #endregion
 
         #region  Methods
+
+#if ODIN_INSPECTOR
+        [Button]
+#endif
         private void ChangeGameObjectName()
         {
-#if UNITY_EDITOR
             string longName = typeof(T).ToString();
 
             // SPLIT THE NAMESPACE AND FETCH THE ORIGINAL CLASS TYPE
@@ -71,7 +78,6 @@ namespace Tim.GeneralUtility
 
             string newName = string.Format($"======== {longName}");
             gameObject.name = newName;
-#endif
         }
 
         protected virtual void Awake()
