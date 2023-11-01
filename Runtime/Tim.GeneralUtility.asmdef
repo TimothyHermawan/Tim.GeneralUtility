@@ -7,7 +7,9 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Unity.Plastic.Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.OdinInspector.Editor.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
