@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 #endif
 
-public class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
+namespace Tim.GeneralUtility
 {
-    private static T _instance;
+    public class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
+    {
+        private static T _instance;
 
 
 #if UNITY_ADDRESSABLE
@@ -25,17 +27,18 @@ public class SingletonScriptableObject<T> : ScriptableObject where T : Scriptabl
 
 #else
 
-    public static T Instance
-    {
-        get
+        public static T Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = Resources.LoadAsync<T>(typeof(T).Name).asset as T;
+                if (_instance == null)
+                {
+                    _instance = Resources.LoadAsync<T>(typeof(T).Name).asset as T;
+                }
+                return _instance;
             }
-            return _instance;
         }
-    }
 
 #endif
+    }
 }
