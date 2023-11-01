@@ -369,6 +369,7 @@ namespace Tim.GeneralUtility
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.ContractResolver = new IgnorePropertiesResolver(new List<string> { "name", "hideFlags", "normalized", "magnitude", "sqrMagnitude" });
 
             if (obj is string objString) Debug.Log(objString);
             else Debug.Log(JsonConvert.SerializeObject(obj, settings));
@@ -483,6 +484,20 @@ namespace Tim.GeneralUtility
             return items.OrderBy(x => random.Next()).Take(count).ToList();
         }
 
+        public static T CloneJson<T>(this T source)
+        {
+            // Don't serialize a null object, simply return the default for that object
+            if (ReferenceEquals(source, null)) return default;
+
+            // initialize inner objects individually
+            // for example in default constructor some list property initialized with some values,
+            // but in 'source' these items are cleaned -
+            // without ObjectCreationHandling.Replace default constructor values will be added to result
+            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(source), deserializeSettings);
+        }
+
         public static T DeepClone<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
@@ -507,6 +522,23 @@ namespace Tim.GeneralUtility
 
         }
 
+        public static bool CompareArray3DBool(this bool[,,] data1, bool[,,] data2)
+        {
+            if (data1.Rank != data2.Rank) return false;
+
+            for (int i = 0; i < data1.GetLength(0); i++)
+            {
+                for (int j = 0; j < data1.GetLength(1); j++)
+                {
+                    for (int k = 0; k < data1.GetLength(2); k++)
+                    {
+                        if (data1[i, j, k] != data2[i, j, k]) return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         public static void Shuffle<T>(this IList<T> ts)
         {
