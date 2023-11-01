@@ -1,15 +1,13 @@
 {
     "name": "Tim.GeneralUtility",
     "rootNamespace": "",
-    "references": [
-        "Unity.CollabProxy.Editor"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Newtonsoft.Json.dll"
+        "Unity.Plastic.Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
