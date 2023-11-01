@@ -13,6 +13,9 @@
         "keyword2",
         "keyword3"
     ],
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+    },
     "author": {
         "name": "Timothy Hermawan",
         "email": "timothyhermawan@gmail.com",
