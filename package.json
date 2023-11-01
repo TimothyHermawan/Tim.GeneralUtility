@@ -13,9 +13,6 @@
         "keyword2",
         "keyword3"
     ],
-    "dependencies": {
-        "unity.collab-proxy": "1.17.7"
-    },
     "author": {
         "name": "Timothy Hermawan",
         "email": "timothyhermawan@gmail.com",
