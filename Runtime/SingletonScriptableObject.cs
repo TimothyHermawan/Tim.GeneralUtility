@@ -1,8 +1,6 @@
 using UnityEngine;
 
-#if UNITY_ADDRESSABLE
 using UnityEngine.AddressableAssets;
-#endif
 
 namespace Tim.GeneralUtility
 {
@@ -10,8 +8,6 @@ namespace Tim.GeneralUtility
     {
         private static T _instance;
 
-
-#if UNITY_ADDRESSABLE
 
     public static T Instance
     {
@@ -25,20 +21,5 @@ namespace Tim.GeneralUtility
         }
     }
 
-#else
-
-        public static T Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = Resources.LoadAsync<T>(typeof(T).Name).asset as T;
-                }
-                return _instance;
-            }
-        }
-
-#endif
     }
 }
