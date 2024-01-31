@@ -1,4 +1,5 @@
 ﻿
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -10,6 +11,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.Object;
@@ -46,6 +49,23 @@ namespace Tim.GeneralUtility
             }
 
             OnFinish?.Invoke();
+        }
+
+        public static async UniTask StartCountDown(this TimeSpan timespan, TMP_Text text, CancellationToken cancelToken, Action<TimeSpan> OnUpdated = null, string prefix = null)
+        {
+            while (timespan.TotalSeconds >= 0 && !cancelToken.IsCancellationRequested)
+            {
+                text.text = $"{prefix ?? string.Empty}{timespan.ToReadableString()}";
+
+                await UniTask.Delay(1000);
+
+                timespan = timespan.Subtract(TimeSpan.FromSeconds(1));
+
+                OnUpdated?.Invoke(timespan);
+            }
+
+            timespan = TimeSpan.Zero;
+            text.text = $"{prefix ?? string.Empty}{timespan.ToReadableString()}";
         }
 
 
