@@ -152,6 +152,30 @@ namespace Tim.GeneralUtility
             OnRemainingZero?.Invoke();
         }
 
+        public static string ReplaceExact(this string originalString, string stringToReplace, string replacementString)
+        {
+            if (originalString == null)
+                throw new ArgumentNullException(nameof(originalString));
+            if (stringToReplace == null)
+                throw new ArgumentNullException(nameof(stringToReplace));
+            if (replacementString == null)
+                throw new ArgumentNullException(nameof(replacementString));
+
+            // Split the string into words based on spaces
+            var words = originalString.Split(' ');
+
+            // Replace exact matches
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i] == stringToReplace)
+                {
+                    words[i] = replacementString;
+                }
+            }
+
+            // Join the words back into a string
+            return string.Join(' ', words);
+        }
         public static IEnumerator PerformActionWithRepetition(int repetition, float interval, Action<int> action, Action OnFinished = null, bool TimeScaleIndependent = false)
         {
             // zero (0) repetition means endless
