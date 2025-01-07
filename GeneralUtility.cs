@@ -51,13 +51,38 @@ namespace Tim.GeneralUtility
             OnFinish?.Invoke();
         }
 
+        public static string ReplaceExact(this string originalString, string stringToReplace, string replacementString)
+        {
+            if (originalString == null)
+                throw new ArgumentNullException(nameof(originalString));
+            if (stringToReplace == null)
+                throw new ArgumentNullException(nameof(stringToReplace));
+            if (replacementString == null)
+                throw new ArgumentNullException(nameof(replacementString));
+
+            // Split the string into words based on spaces
+            var words = originalString.Split(' ');
+
+            // Replace exact matches
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i] == stringToReplace)
+                {
+                    words[i] = replacementString;
+                }
+            }
+
+            // Join the words back into a string
+            return string.Join(' ', words);
+        }
+
         public static async UniTask StartCountDown(this TimeSpan timespan, TMP_Text text, CancellationToken cancelToken, Action<TimeSpan> OnUpdated = null, string prefix = null)
         {
-            while (timespan.TotalSeconds >= 0 && !cancelToken.IsCancellationRequested)
+            while (Mathf.FloorToInt((float)timespan.TotalSeconds) > 0 && !cancelToken.IsCancellationRequested)
             {
                 text.text = $"{prefix ?? string.Empty}{timespan.ToReadableString()}";
 
-                await UniTask.Delay(1000);
+                await UniTask.Delay(1000, ignoreTimeScale: true);
 
                 timespan = timespan.Subtract(TimeSpan.FromSeconds(1));
 
@@ -318,10 +343,10 @@ namespace Tim.GeneralUtility
                 //Debug.Log("Else");
             }
 
-            if (span.TotalSeconds <= 0)
-            {
-                result = "00:00";
-            }
+            //if (span.TotalSeconds <= 0)
+            //{
+            //    result = "00:00";
+            //}
 
             //Debug.Log($"Timespan: {result}");
 
@@ -409,7 +434,11 @@ namespace Tim.GeneralUtility
 
         public static string Serialize(this object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.ContractResolver = new IgnorePropertiesResolver(new List<string> { "name", "hideFlags", "normalized", "magnitude", "sqrMagnitude" });
+
+            return JsonConvert.SerializeObject(obj, settings);
         }
 
         public static T GetEnumValueFromDescription<T>(this string description) where T : Enum
