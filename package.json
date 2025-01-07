@@ -1,24 +1,10 @@
 {
-    "name": "com.tim.generalutility",
-    "version": "1.0.0",
-    "displayName": "Tim GeneralUtility",
-    "description": "This is an example package",
-    "unity": "2022.3",
-    "unityRelease": "10f1",
-    "documentationUrl": "https://example.com/",
-    "changelogUrl": "https://example.com/changelog.html",
-    "licensesUrl": "https://example.com/licensing.html",
-    "keywords": [
-        "keyword1",
-        "keyword2",
-        "keyword3"
-    ],
-    "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2"
-    },
-    "author": {
-        "name": "Timothy Hermawan",
-        "email": "timothyhermawan@gmail.com",
-        "url": "https://github.com/TimothyHermawan/Tim.GeneralUtility"
-    }
+  "name": "com.tim.generalutility",
+  "displayName": "Tim GeneralUtility",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "This is an example package.",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  }
 }
