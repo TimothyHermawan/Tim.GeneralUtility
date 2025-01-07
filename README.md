@@ -1,17 +1,15 @@
-1. Add this line to your manifest.json file under Packages folder
+Add this line to your <ins>**manifest.json**</ins> file under Packages folder
    ```
    "com.unity.nuget.newtonsoft-json": "3.0.2"
    ```
-
-  So it will be like this:
-  ```
-    {
+  So it will be like this  
+```
+   {
       "dependencies": {
          ...
-          "com.unity.nuget.newtonsoft-json": "3.0.2"
+         "com.unity.nuget.newtonsoft-json": "3.0.2"
       }
-    }
-  ```
+   }
+```
 
-
-2. Install this repository as "submodule"
+Then install this repository as "submodule"
