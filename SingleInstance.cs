@@ -66,9 +66,7 @@ namespace Tim.GeneralUtility
         #region  Methods
 
 #if ODIN_INSPECTOR
-        [PropertySpace(SpaceAfter = 10, SpaceBefore = 10)]
-        [TitleGroup("Single Instance Actions")]
-        [ButtonGroup("Single Instance Actions/Buttons")]
+        [Button]
 #endif
         private void ChangeGameObjectName()
         {
