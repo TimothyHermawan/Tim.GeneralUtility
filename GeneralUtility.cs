@@ -500,6 +500,22 @@ namespace Tim.GeneralUtility
             return list[nextIndex];
         }
 
+        public static T Next<T>(this IList<T> list, T item, bool loop = true)
+        {
+            if (item == null) return list[0];
+
+            var nextIndex = list.IndexOf(item) + 1;
+
+            if (nextIndex == list.Count)
+            {
+                if(loop)
+                return list[0];
+                else return list[list.Count-1];
+            }
+
+            return list[nextIndex];
+        }
+
         public static T Previous<T>(this IList<T> list, T item)
         {
             var prevIndex = list.IndexOf(item) - 1;
