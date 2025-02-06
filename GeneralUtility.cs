@@ -1,5 +1,6 @@
 ﻿
 using Cysharp.Threading.Tasks;
+using Doozy.Runtime.Common.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -89,6 +90,24 @@ namespace Tim.GeneralUtility
             }
 
             return str.ToString();
+        }
+        public static string AbbreviateNumber(this double number)
+        {
+            if (Math.Abs(number) < 1000)
+                return number.ToString("0.##");
+
+            string[] suffixes = { "", "K", "M", "B", "T" }; // Thousand, Million, Billion, Trillion
+            int suffixIndex = 0;
+            double absNumber = Math.Abs(number); // Work with absolute value
+
+            while (absNumber >= 1000 && suffixIndex < suffixes.Length - 1)
+            {
+                absNumber /= 1000;
+                suffixIndex++;
+            }
+
+            // Preserve the sign of the number
+            return (number < 0 ? "-" : "") + absNumber.ToString("0.##") + suffixes[suffixIndex];
         }
 
         public static bool IsValidEmail(this string email)
@@ -362,8 +381,28 @@ namespace Tim.GeneralUtility
 
         public static void ClearChildrenExceptTheFirstElement(this Transform target, int skip = 1)
         {
-            for (int i = target.childCount - skip; i > 0; i--)
+            for (int i = target.childCount-1; i > skip - 1; i--)
             {
+                Debug.Log("Destroying: " + target.GetChild(i).gameObject.name);
+                Destroy(target.GetChild(i).gameObject);
+            }
+        }
+
+        public static void DestroyAllChildrensExcept(this Transform target, List<GameObject> excepts)
+        {
+            for (int i = target.childCount - 1; i >= 0; i--)
+            {
+                if (excepts.Contains(target.GetChild(i).gameObject)) continue;
+                Destroy(target.GetChild(i).gameObject);
+            }
+        }
+
+        public static void DestroyAllChildrensHasComponentAndExcept<T>(this Transform target, List<GameObject> excepts = null)
+        {
+            for (int i = target.childCount - 1; i >= 0; i--)
+            {
+                if (target.GetChild(i).gameObject.GetComponent<T>() == null) continue;
+                if (excepts.Contains(target.GetChild(i).gameObject)) continue;
                 Destroy(target.GetChild(i).gameObject);
             }
         }
