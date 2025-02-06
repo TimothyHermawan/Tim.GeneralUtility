@@ -270,8 +270,26 @@ namespace Tim.GeneralUtility
             return chance >= Random.Range(0f, 1f);
         }
 
+        public static string GetOrdinalSuffix(int number)
+        {
+            // Special case for 11, 12, 13
+            if (number % 100 >= 11 && number % 100 <= 13)
+            {
+                return "th";
+            }
 
-        #if UNITY_EDITOR
+            // Check last digit for ordinal suffix
+            return (number % 10) switch
+            {
+                1 => "st",
+                2 => "nd",
+                3 => "rd",
+                _ => "th"
+            };
+        }
+
+
+#if UNITY_EDITOR
         public static int GetCurrentAmountOfScriptableObject<T>() where T : ScriptableObject
         {
             string[] guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);  //FindAssets uses tags check documentation for more info
