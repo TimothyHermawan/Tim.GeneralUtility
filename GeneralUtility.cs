@@ -52,6 +52,39 @@ namespace Tim.GeneralUtility
             OnFinish?.Invoke();
         }
 
+        public static double LerpDouble(double a, double b, double t)
+        {
+            return a + (b - a) * t;
+        }
+
+
+        public static IEnumerator ChangeValueOverTime(double from, double to, float duration, Action<double> OnValueChange, Action OnFinish = null)
+        {
+            float counter = 0f;
+
+            if (from.Equals(to))
+            {
+                OnValueChange?.Invoke(to);
+                yield return new WaitForSeconds(duration);
+            }
+            else
+            {
+                while (counter < duration)
+                {
+                    if (Time.timeScale == 0) counter += Time.unscaledDeltaTime;
+                    else counter += Time.deltaTime;
+
+                    double val = LerpDouble(from, to, counter / duration);
+
+                    OnValueChange?.Invoke(val);
+
+                    yield return null;
+                }
+            }
+
+            OnFinish?.Invoke();
+        }
+
         public static async UniTask StartCountDown(this TimeSpan timespan, TMP_Text text, CancellationToken cancelToken, Action<TimeSpan> OnUpdated = null, string prefix = null)
         {
             while (timespan.TotalSeconds >= 0 && !cancelToken.IsCancellationRequested)
@@ -68,6 +101,8 @@ namespace Tim.GeneralUtility
             timespan = TimeSpan.Zero;
             text.text = $"{prefix ?? string.Empty}{timespan.ToReadableString()}";
         }
+
+
 
 
         /// <summary>
@@ -286,6 +321,21 @@ namespace Tim.GeneralUtility
                 3 => "rd",
                 _ => "th"
             };
+        }
+
+        public static string MiddleEllipses(this string text, int maxCharacters)
+        {
+            if (text.Length > maxCharacters)
+            {
+                int halfLength = maxCharacters / 2;
+                string start = text.Substring(0, halfLength); // First part
+                string end = text.Substring(text.Length - halfLength); // Last part
+                return $"{start}...{end}"; // Combine with ellipses in the middle
+            }
+            else
+            {
+                return text;
+            }
         }
 
 

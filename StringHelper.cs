@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using ChocDino.UIFX;
 using Tim.GeneralUtility;
 using UnityEngine;
@@ -35,6 +36,11 @@ public static class StringHelper
         {
             return val.ToString($"N{decimalPlaces}");
         }
+    }
+
+    public static string RemoveLineBreaks(this string input)
+    {
+        return Regex.Replace(input, @"\r\n?|\n", "");
     }
 
     public static string ConvertAsCurrency(this string value)
