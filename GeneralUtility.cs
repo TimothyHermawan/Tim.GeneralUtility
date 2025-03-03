@@ -10,12 +10,14 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using static UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -321,6 +323,93 @@ namespace Tim.GeneralUtility
                 3 => "rd",
                 _ => "th"
             };
+        }
+
+        public static string GetLocalizedMessage(LocalizedMessage localizedMessage)
+        {
+            // Get the localized string table
+            var table = LocalizationSettings.StringDatabase.GetTable("ErrorCode");
+
+            if (table == null)
+            {
+                Debug.LogError("Localization Table 'ErrorMessages' not found!");
+                return "Error message not available.";
+            }
+
+            // Get the localized string using the error code as the key
+            var entry = table.GetEntry(localizedMessage.code.ToString());
+
+            if (entry == null)
+            {
+                Debug.LogError($"Error code {localizedMessage.code} not found in Localization Table.");
+                return "Unknown error.";
+            }
+
+            if (localizedMessage.parameters != null)
+            {
+
+                return string.Format(entry.GetLocalizedString(), localizedMessage.parameters.ToArray());
+            }
+            else
+            {
+                return entry.GetLocalizedString();
+            }
+        }
+
+        public static string GetLocalizedMessage(int code, List<string> parameters)
+        {
+            // Get the localized string table
+            var table = LocalizationSettings.StringDatabase.GetTable("ErrorCode");
+
+            if (table == null)
+            {
+                Debug.LogError("Localization Table 'ErrorMessages' not found!");
+                return "Error message not available.";
+            }
+
+            // Get the localized string using the error code as the key
+            var entry = table.GetEntry(code.ToString());
+
+            if (entry == null)
+            {
+                Debug.LogError($"Error code {code} not found in Localization Table.");
+                return "Unknown error.";
+            }
+
+            // Format the string with parameters
+            if (parameters != null)
+            {
+
+            return string.Format(entry.GetLocalizedString(), parameters.ToArray());
+            }
+            else
+            {
+                return entry.GetLocalizedString();
+            }
+        }
+
+        public static string GetLocalizedMessageInGeneral(string key)
+        {
+            // Get the localized string table
+            var table = LocalizationSettings.StringDatabase.GetTable("General");
+
+            if (table == null)
+            {
+                Debug.LogError("Localization Table 'ErrorMessages' not found!");
+                return "Error message not available.";
+            }
+
+            // Get the localized string using the error code as the key
+            var entry = table.GetEntry(key);
+
+            if (entry == null)
+            {
+                Debug.LogError($"Error code {key} not found in Localization Table.");
+                return "Unknown error.";
+            }
+
+            // Format the string with parameters
+            return entry.GetLocalizedString();
         }
 
         public static string MiddleEllipses(this string text, int maxCharacters)
