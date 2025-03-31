@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using ChocDino.UIFX;
 using Tim.GeneralUtility;
-using UnityEngine;
 
 public static class StringHelper
 {
@@ -14,11 +10,11 @@ public static class StringHelper
 
         string color = "#000000"; // color.black
 
-        if(val < 0)
+        if (val < 0)
         {
             color = "#C70000"; // color.red
         }
-        else if( val > 0)
+        else if (val > 0)
         {
             color = "#009300"; // color.green
         }

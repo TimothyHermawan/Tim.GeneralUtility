@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
@@ -149,7 +147,7 @@ public static class JObjectHelper
             return value;
         }
 
-       
+
     }
 
     public static JObject ModifyJson(ref JObject jsonObj, string modifierKey, object newValue)

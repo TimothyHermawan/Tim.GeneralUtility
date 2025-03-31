@@ -1,7 +1,4 @@
 ﻿
-using Cysharp.Threading.Tasks;
-using Doozy.Runtime.Common.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,10 +7,11 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -325,7 +323,7 @@ namespace Tim.GeneralUtility
             };
         }
 
-        public static string GetLocalizedMessage(LocalizedMessage localizedMessage)
+        public static string GetLocalizedMessage(LocalizedMessage localizedMessage, string fallback)
         {
             // Get the localized string table
             var table = LocalizationSettings.StringDatabase.GetTable("ErrorCode");
@@ -333,7 +331,7 @@ namespace Tim.GeneralUtility
             if (table == null)
             {
                 Debug.LogError("Localization Table 'ErrorMessages' not found!");
-                return "Error message not available.";
+                return fallback;
             }
 
             // Get the localized string using the error code as the key
@@ -342,7 +340,7 @@ namespace Tim.GeneralUtility
             if (entry == null)
             {
                 Debug.LogError($"Error code {localizedMessage.code} not found in Localization Table.");
-                return "Unknown error.";
+                return fallback;
             }
 
             if (localizedMessage.parameters != null)
@@ -380,7 +378,7 @@ namespace Tim.GeneralUtility
             if (parameters != null)
             {
 
-            return string.Format(entry.GetLocalizedString(), parameters.ToArray());
+                return string.Format(entry.GetLocalizedString(), parameters.ToArray());
             }
             else
             {
@@ -434,7 +432,7 @@ namespace Tim.GeneralUtility
             string[] guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);  //FindAssets uses tags check documentation for more info
             return guids.Length;
         }
-        #endif
+#endif
 
         #region Extension Method
         public static string CapitalizeEachWord(this string target)
@@ -538,7 +536,7 @@ namespace Tim.GeneralUtility
 
         public static void ClearChildrenExceptTheFirstElement(this Transform target, int skip = 1)
         {
-            for (int i = target.childCount-1; i > skip - 1; i--)
+            for (int i = target.childCount - 1; i > skip - 1; i--)
             {
                 Debug.Log("Destroying: " + target.GetChild(i).gameObject.name);
                 Destroy(target.GetChild(i).gameObject);
@@ -704,9 +702,9 @@ namespace Tim.GeneralUtility
 
             if (nextIndex == list.Count)
             {
-                if(loop)
-                return list[0];
-                else return list[list.Count-1];
+                if (loop)
+                    return list[0];
+                else return list[list.Count - 1];
             }
 
             return list[nextIndex];

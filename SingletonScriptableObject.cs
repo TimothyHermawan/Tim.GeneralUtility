@@ -9,17 +9,17 @@ namespace Tim.GeneralUtility
         private static T _instance;
 
 
-    public static T Instance
-    {
-        get
+        public static T Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = Addressables.LoadAssetAsync<T>(typeof(T).Name).Result;
+                if (_instance == null)
+                {
+                    _instance = Addressables.LoadAssetAsync<T>(typeof(T).Name).Result;
+                }
+                return _instance;
             }
-            return _instance;
         }
-    }
 
     }
 }
